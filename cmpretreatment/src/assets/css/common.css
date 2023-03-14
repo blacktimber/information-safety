@@ -1,0 +1,275 @@
+/* ************************************************ */
+/* 分页器 */
+.pagination-container.is-background .el-pager li {
+    /* 对页数的样式进行修改 */
+    background-color: #fff;
+    color: black;
+}
+
+.pagination-container.is-background .btn-next {
+    /* 对下一页的按钮样式进行修改 */
+    background-color: #fff;
+    border-radius: 2px;
+    color: black;
+}
+
+.pagination-container.is-background .btn-prev {
+    /* 对上一页的按钮样式进行修改 */
+    background-color: #fff;
+    border-radius: 2px;
+    color: black;
+}
+
+.pagination-container.is-background .el-pager li.is-active {
+    /* 当前选中页数的样式进行修改 */
+    background-color: rgb(65, 63, 74) !important;
+    color: white !important;
+}
+
+.pagination-container.is-background .el-pager li:hover {
+    /* 鼠标悬浮位置的样式进行修改 */
+    background-color: rgb(65, 63, 74) !important;
+    color: white !important;
+}
+
+.el-pagination {
+    margin-top: 0.4rem;
+    display: flex;
+    justify-content: right;
+}
+
+/* ************************************************ */
+/* 弹窗 */
+.el-dialog__title {
+    font-size: 0.2rem;
+    font-weight: bolder;
+}
+
+.el-dialog__header {
+    margin-bottom: 0.3rem;
+}
+
+/* ************************************************ */
+/* messageBox */
+.el-message-box {
+    text-align: center;
+    height: 2rem !important;
+}
+
+.el-message-box__title {
+    font-weight: bolder;
+}
+
+.el-message-box__container {
+    margin-top: 0.2rem;
+}
+
+.el-message-box__container p {
+    display: flex;
+    justify-content: center;
+}
+
+.el-message-box__btns {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.el-message-box__btns .el-mes-btn {
+    background-color: rgb(18, 16, 29) !important;
+    color: white;
+    font-size: 0.15rem;
+    height: 25px;
+    width: 1rem;
+    border: none;
+    box-sizing: border-box;
+    margin-top: 0.3rem;
+}
+
+.el-message-box__btns .el-mes-btn:hover {
+    background-color: white !important;
+    color: rgb(18, 16, 29);
+    border: 1px solid black;
+}
+
+/* ************************************************ */
+/* 日历 */
+:deep(.el-picker__popper.el-popper) {
+    /*border-radius: 15px;*/
+    border: none;
+}
+
+.el-picker-panel__icon-btn {
+    width: 8px;
+    height: 10px;
+    color: white !important;
+}
+
+.el-picker-panel .el-date-table th {
+    color: white;
+}
+.el-picker-panel .el-date-table td.available {
+    font-size: 16px;
+    font-weight: normal;
+    color: white;
+}
+.el-picker-panel .el-date-table td.available:hover {
+    font-weight: bolder;
+}
+
+.el-date-range-picker .el-picker-panel__body {
+    color: white;
+    background-color: rgba(18,16,29,0.8);
+    border-radius: 15px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: none;
+}
+
+.el-picker-panel .el-date-table.is-week-mode .el-date-table__row:hover div,
+.el-picker-panel .el-date-table td.in-range div,
+.el-picker-panel .el-date-table td.in-range div:hover {
+    background-color: white;
+    color: black;
+}
+
+.el-picker-panel .el-date-table td.start-date span {
+    font-size: 14px;
+    border-radius: 50%;
+    color: rgb(18,16,29) !important;
+    border: 1px solid black;
+    background-color: rgb(242,246,252);
+    font-weight: bolder;
+    box-sizing: border-box;
+}
+
+.el-picker-panel .el-date-table td.end-date span {
+    font-size: 14px;
+    border-radius: 50%;
+    color: rgb(18,16,29) !important;
+    border: 1px solid black;
+    background-color: rgb(242,246,252);
+    font-weight: bolder;
+    box-sizing: border-box;
+}
+
+:deep(.el-picker-panel__sidebar .el-picker-panel__shortcut) {
+    background-color: #2c3e50;
+}
+
+/* ************************************************ */
+/* 标签页 */
+.el-tabs--left .el-tabs__header.is-left {
+    width: 15%;
+    height: 0.6rem;
+    min-height: 600px;
+    position: fixed;
+}
+
+.el-tabs--left .el-tabs__nav-wrap.is-left .el-tabs__nav-prev {
+    left: 0;
+    color: black;
+    font-size: 0.2rem;
+}
+
+.el-date-table td.disabled .el-date-table-cell {
+    background-color: rgb(65,64,74);
+}
+.el-tabs--left .el-tabs__nav-wrap.is-left .el-tabs__nav-next {
+    right: 0;
+    color: black;
+    font-size: 0.2rem;
+    background-color: rgba(18,15,29,0.1);
+}
+.el-tabs__active-bar {
+    background-color: rgba(18,15,29);
+}
+.el-tabs__item.is-active {
+    color: rgb(18,16,29);
+    font-weight: bolder;
+    font-size: 0.25rem;
+    line-height: 0.1rem;
+}
+.el-tabs__item {
+    font-size: 0.2rem;
+    margin-top: 20px;
+    line-height: 0.2rem;
+    box-sizing: border-box;
+}
+.el-tabs__item:hover {
+    font-weight: bolder;
+    color: rgb(18,16,29);
+    line-height: 0.1rem;
+}
+
+.el-tabs__content {
+    width: 80%;
+    margin-left: 20%;
+    padding-left: 0.2rem;
+    overflow: inherit;
+    box-sizing: border-box;
+}
+
+.el-tabs--left, .el-tabs--right {
+    overflow-y: visible;
+}
+
+.el-tabs--left .el-tabs__active-bar.is-left {
+    height: 60px !important;
+}
+
+/* ************************************************ */
+/* 加载loading */
+.preLoading .el-loading-spinner .el-loading-text {
+     color: white;
+}
+
+:deep(.el-select-dropdown__item .selected) {
+    color: red !important;
+}
+/* ************************************************ */
+
+/* 表单 */
+/*.el-form {*/
+/*    width: 80%;*/
+/*    margin: 0 auto;*/
+/*}*/
+/*.el-form :deep(.el-form-item__label) {*/
+/*    font-size: 0.16rem;*/
+/*    font-weight: bolder;*/
+/*    margin-right: 0.2rem;*/
+/*}*/
+/*.el-form .el-select {*/
+/*    width: 100%;*/
+/*}*/
+/*.el-form .el-input {*/
+/*    border-radius: 15px;*/
+/*    overflow: hidden;*/
+/*}*/
+/*.el-form :deep(.el-input__wrapper) {*/
+/*    border-radius: 15px;*/
+/*    border: none;*/
+/*}*/
+/*.el-form .item_button {*/
+/*    margin-top: 0.9rem;*/
+/*}*/
+/*.el-form .item_button .dialog-footer{*/
+/*    display: flex;*/
+/*    width: 100%;*/
+/*    justify-content: center;*/
+/*}*/
+/*.el-form .item_button .dialog-footer .el-button {*/
+/*    background-color: rgb(18,16,29);*/
+/*    color: white;*/
+/*    font-size: 0.15rem;*/
+/*    height: 35px;*/
+/*    width: 1rem;*/
+/*    border: none;*/
+/*    box-sizing: border-box;*/
+/*    margin: 0 0.5rem;*/
+/*}*/
+/*.el-form .item_button .dialog-footer .el-button:hover {*/
+/*    background-color: white;*/
+/*    color: rgb(18,16,29);*/
+/*    border: 1px solid black;*/
+/*}*/
+
