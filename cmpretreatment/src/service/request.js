@@ -1,10 +1,10 @@
 import axios from "axios"
 import {ElLoading, ElMessage} from "element-plus";
-
+var baseURLStr = window.g.BASE_URL;
 const request = axios.create({
     // baseURL: "https://6043950n4x.oicp.vip:44960",
     // baseURL: "https://530008q6d3.zicp.fun:26711",
-	baseURL: "http://43.143.197.144:8201",
+	baseURL: baseURLStr,
 	// baseURL: "http://530008q6d3.zicp.fun:53327",
     // baseURL: "http://192.168.88.225:8002/",
     timeout: 6000

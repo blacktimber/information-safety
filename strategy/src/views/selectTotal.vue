@@ -42,7 +42,6 @@
 	const getSelect=async()=>{
 		const {data: res2} = await proxy.$http.Odata.getlogtable({item:queryInfoData.value.name})
 		if (res2.code !== 200) return proxy.$message.error('获取数据失败')
-		console.log(res2.data);
 		keywordsList.length = 0
 		for (let i = 0; i < res2.data.length; i++) {
 			keywordsList.push(res2.data[i])

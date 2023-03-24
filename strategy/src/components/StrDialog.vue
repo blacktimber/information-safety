@@ -243,6 +243,7 @@
 			data: res
 		} = await proxy.$http.Odata.getOlist()
 		if (res.code !== 200) return proxy.$message.error('获取数据库字段失败')
+		console.log(res.data);
 		for (let i = 0; i < res.data.length; i++) {
 			const words = {
 				type: res.data[i].type,

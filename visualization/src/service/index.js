@@ -1,8 +1,6 @@
-import * as Journal from './Journal'
-import * as Status from './Status'
-import * as Odata from './Odata'
+import * as Exhibition from './Exhibition'
+import * as Administration from './Administration'
 export default {
-	Journal,
-	Status,
-	Odata
+	Exhibition,
+	Administration,
 }

@@ -1,16 +1,17 @@
 const {defineConfig} = require('@vue/cli-service')
 module.exports = defineConfig({
-	assetsDir: 'static',
-	    parallel: false,
-	    publicPath: './',
-  transpileDependencies: true,
-  runtimeCompiler: true,
+	publicPath:process.env.NODE_ENV === 'production' ? './' : '/',
+	  assetsDir:'static',
+	  outputDir:"dist",
+	  indexPath: 'index.html',
+	  lintOnSave:false,
+	  parallel:false,
   devServer: {
     // host: '192.168.137.1',
     // host: '127.0.0.1',
 	host:'0.0.0.0',
     open: true,
-    port: 8003,
+    port: 8002,
 	// proxy: {
 	//     '/getCurrentCityName': {
 	//       target: 'http://530008q6d3.zicp.fun:14288', //目标URL

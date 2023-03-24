@@ -21,10 +21,9 @@
 		  @close="changdialogVisible"
 		  style="border-radius: 10px;"
 		>
+		 <img :src="warning" alt="" class="dialogimg">
 		<span class="dialogspan" >
-			<el-icon class="disIcon" :size="30" color="#922221">
-			  <WarningFilled />
-			</el-icon>
+			 
 			此操作将永久删除该信息，是否继续？</span>
 			
 		<div class="item_button">
@@ -42,6 +41,7 @@
 	import dataSource from '@/components/dataSource.vue'
 	import tableInfo from '@/components/table.vue'
 	import StrDialog from '@/components/StrDialog.vue'
+	import warning from '@/assets/imgs/warning.png'
 	import {useRouter} from "vue-router";
 	import {ref,getCurrentInstance,reactive,onMounted} from 'vue'
 	const router = useRouter()
@@ -73,7 +73,6 @@
 	  // console.log({...queryInfoIp, ...queryInfo})
 	  const {data: res} = await proxy.$http.Odata.getLog({...queryInfoIp, ...queryInfo})
 	  if (res.code !== 200) return proxy.$message.error('获取策略列表失败')
-	  // console.log(res.data.records)
 	  keywordsList.length = 0
 	  // console.log(res.data);
 	  for(let i=0;i<res.data.records.length;i++){
@@ -114,7 +113,6 @@
 	// 确定添加按钮
 	const AddReg= async (name,sqlStr)=>{
 		// const sqls=ref("")
-		console.log(sqlStr);
 		const queryAdd={
 			remark:name.value,
 			strategy:sqlStr
@@ -188,7 +186,6 @@
 	// 确认删除
 	const DeleteOdata= async () =>{
 		    const {data: res} = await proxy.$http.Odata.deleteLog({item: deleteId.value})
-			console.log({item: deleteId});
 		    if (res.code !== 200) return proxy.$message.error('删除失败')
 			dialogVisibleDelete.value=false
 		    getKeywordsList()
@@ -204,12 +201,9 @@
 	}
 	// 运行图标gowords
 	const gowords= async (item) =>{
-		console.log(item);
-		console.log(item.strategy);
 		const cc=item.strategy
 		    const {data: res} = await proxy.$http.Odata.selectTotal({sql: cc})
 		    if (res.code !== 200) return proxy.$message.error('运行策略失败')
-			console.log(res);
 			const name=item.remark
 			const sqls=item.strategy
 			const toal=res.data
@@ -280,10 +274,8 @@
 	  		  color: black;
 			  position: relative;
 	  		  font-weight: 500;
-			  .disIcon{
-				  position: absolute;
-				  left: -30px;
-				      top: -5px;
-			  }
+	  }
+	  .dialogimg{
+		  width: 0.20rem;
 	  }
 </style>

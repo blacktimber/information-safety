@@ -25,7 +25,7 @@
 	});
 	const queryInfo = reactive({
 	  currentPage: 1,
-	  pageSize: 9,
+	  pageSize: 10,
 	})
 	const keywordsList1=ref([])
 	// 获取信息列表
