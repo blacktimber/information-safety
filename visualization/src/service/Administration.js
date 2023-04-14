@@ -10,7 +10,7 @@ export function getData() {
 //测试
 export function getaaa() {
     return request({
-        url: `/administration//see`,
+        url: `/administration/see`,
         method: "get",
     });
 }

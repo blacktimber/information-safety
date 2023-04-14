@@ -1,7 +1,7 @@
 <template>
 	<div class="exbody">
 		<div class="strps" v-if="VisibleAdd">
-			<strps @goOut="goOut" @complete="complete" :formss="form" :visible="Visibletwo"/>
+			<strps @goOut="goOut" @complete="complete"  @Editcomplete="Editcomplete" :formss="form" :visible="Visibletwo"/>
 		</div>
 		<div class="exbody_main" v-if="!VisibleAdd">
 			<div class="title">
@@ -9,24 +9,24 @@
 			</div>
 			<div class="Ex_body">
 				<div class="show">
-					<showBody v-if="form.radio==0">
+					<showBody v-if="form.radio==1">
 						<template v-for="(item,index) in form.optiop" :key="index" v-slot:[index+1]>
-							<echartsStep   :option="item" @click="clog(index)"/>
+							<echartsStep @echartClick="echartClick" v-if="isFlag"  :option="item"/>
 						</template>
 					</showBody>
-					<custom v-if="form.radio==1">
+					<custom v-if="form.radio==2">
 						<template v-for="(item,index) in form.optiop" :key="index" v-slot:[index+1]>
-							<echartsStep  :option="item"/>
+							<echartsStep @echartClick="echartClick" v-if="isFlag" :option="item" />
 						</template>
 						</custom>
-						<custom2 v-if="form.radio==2">
+						<custom2 v-if="form.radio==3">
 							<template v-for="(item,index) in form.optiop" :key="index" v-slot:[index+1]>
-								<echartsStep  :option="item"/>
+								<echartsStep @echartClick="echartClick" v-if="isFlag" :option="item" />
 							</template>
 							</custom2>
-						<custom3 v-if="form.radio==3">
+						<custom3 v-if="form.radio==4">
 								<template v-for="(item,index) in form.optiop" :key="index" v-slot:[index+1]>
-									<echartsStep :option="item"/>
+									<echartsStep @echartClick="echartClick" v-if="isFlag" :option="item" />
 								</template>
 						</custom3>
 				</div>
@@ -56,28 +56,31 @@
 		<template #>
 			<img :src="warning" alt="" class="dialogimg">
 			<span class="dialogspan">
-				此操作将永久删除该信息，是否继续？</span>
+				此操作将永久删除当前模板，是否继续？</span>
 		</template>
 	</Dialog>
 	<Dialog title="切换模板" :dialogVisibleDelete="dialogVisibleSwitch" @determine="determineSwitch" @cancel="cancelSwitch">
 		<template #>
+			<el-scrollbar height="3rem">
 			<el-radio-group v-model="radio" text-color="#ffffff" fill="#ffffff" class="radio-group">
 				<el-radio v-for="(item,index) in radioList" :key="index" :label="item.label">{{item.value}}</el-radio>
 			</el-radio-group>
+			</el-scrollbar>
 		</template>
 	</Dialog>
-	<el-dialog
+	<!-- <el-dialog
+		class="bigop"
 	   :model-value="VisibleBig"
 	   :modal="false"
 	   :draggable="true"
-	   width="40%" 
+	   width="50%" 
 	   @close="VisibleBig=false"
 	   style="border-radius: 10px;
-		height: 50%;
-		background-color:rgb(100,100,100,.2);"
+		background-color:rgba(100,100,100,.2);
+		height: 70%;"
 	 >
-	 <echartsStep class="main_three"  :option="bigoptiop"/>
-	 </el-dialog>
+	 <echartsStep class="main_three" v-if="isdialog" :option="bigoptiop"/>
+	 </el-dialog> -->
 </template>
 
 <script setup>
@@ -96,145 +99,15 @@
 	import strps from '@/components/steps.vue'
 	import warning from '@/assets/imgs/warning.png'
 	import {
-		ref,onMounted,getCurrentInstance,nextTick
+		ref,onMounted,getCurrentInstance,nextTick,require
 	} from 'vue'
 	import { useStore } from 'vuex' // 引入useStore 方法
+	import axios from 'axios'
+	import { useRouter } from "vue-router";
+	const router = useRouter()
 	const store = useStore()  // 该方法用于返回store 实例
 	const optionEcharts = store.state.optionEcharts
 		const {proxy} = getCurrentInstance()
-		const data ={
-			name:"默认模板",
-			remarks:"备注",
-			radio:2,
-			optiop:[
-			{
-				type: 0,
-				XData: [
-					"1",
-					"2",
-					"3",
-					"4",
-					"5",
-					"6",
-					"7"
-				],
-				YData: [
-					23,
-					24,
-					18,
-					25,
-					27,
-					28,
-					25
-				]
-			},
-			{
-				type: 1,
-				XData: [
-					"1",
-					"2",
-					"3",
-					"4",
-					"5",
-					"6",
-					"7"
-				],
-				YData: [
-					5,
-					10,
-					30,
-					15,
-					20,
-					5,
-					20
-				]
-			},
-			{
-				type: 2,
-				XData: [
-					"1",
-					"2",
-					"3",
-					"4",
-					"5",
-				],
-				YData: [
-					50,
-					20,
-					30,
-					20,
-					40
-				]
-			},
-			{
-				type: 3,
-				XData: [
-					"1",
-					"2",
-					"3",
-					"4",
-					"5"
-				],
-				YData: [
-					20,
-					40,
-					60,
-					80,
-					100
-				]
-			},
-			{
-				type: 1,
-				XData: [
-					"1",
-					"2",
-					"3",
-					"4",
-					"5"
-				],
-				YData: [
-					20,
-					40,
-					60,
-					80,
-					100
-				]
-			},
-			{
-				type: 4,
-				XData: [
-					"1",
-					"2",
-					"3",
-					"4",
-					"5"
-				],
-				YData: [
-					20,
-					40,
-					60,
-					80,
-					100
-				]
-			},
-			{
-				type: 5,
-				XData: [
-					"1",
-					"2",
-					"3",
-					"4",
-					"5"
-				],
-				YData: [
-					20,
-					40,
-					60,
-					80,
-					100
-				]
-			},
-		]}
 		
 	// const name = ref("")
 	// 删除按钮弹出框
@@ -253,6 +126,8 @@
 	const dialogAdd = () => {
 		Visibletwo.value=false
 		VisibleAdd.value=true
+			
+		
 	}
 	//删除弹框打开按钮
 	const dialogDelete = () => {
@@ -265,53 +140,32 @@
 	// 删除弹框确定按钮
 	const determineDelete = (flag) => {
 		dialogVisibleDelete.value = flag.value
+		getData({
+			item:3
+		})
 	}
 	// 删除弹框取消按钮
 	const cancelDelete = (flag) => {
 		dialogVisibleDelete.value = flag.value
 	}
-	// 当前模板次序
 	// 打开切换按钮 获取模板列表数据
-	const res={
-	    "code": 200,
-	    "data": {
-	        "namelist": [
-	            {
-	                "id": 1,
-	                "name": "默认模板"
-	            },
-	            {
-	                "id": 2,
-	                "name": "模板A"
-	            },
-	            {
-	                "id": 3,
-	                "name": "模板B"
-	            },
-	            {
-	                "id": 4,
-	                "name": "模板C"
-	            },
-	        ]
-	    }
-	}
 	const SwitchChange = async() => {
-		// const {data: res} = await proxy.$http.Exhibition.getList()
-		// if (res.code !== 200) return proxy.$message.error('获取数据失败')
-		
+		const {data: res} = await proxy.$http.Exhibition.getModelList()
+		if (res.code !== 200) return proxy.$message.error('获取数据失败')
 		radioList.value=[]
-		for (let i in res.data.namelist) {
-			const obj={label:res.data.namelist[i].id,value:res.data.namelist[i].name}
-			radioList.value.push(obj)
+		for (let i=0;i<res.data.length;i++) {
+				const obj={label:res.data[i].modelId,value:res.data[i].modelName}
+				radioList.value.push(obj)
 		}
 		dialogVisibleSwitch.value=true
-		
 	}
 	// 切换弹框确定按钮
 	const determineSwitch = (flag) => {
 		dialogVisibleSwitch.value = flag.value
 		let id=radio.value
-		getData()
+		getData({
+			item:id
+		})
 	}
 	// 切换弹框取消按钮
 	const cancelSwitch = (flag) => {
@@ -325,39 +179,167 @@
 	// 模板取消按钮
 	const goOut=()=>{ 
 		VisibleAdd.value=false
-		getData()
+		getData({
+			item:app1.value.modelId
+		})
+		// nextTick(()=>{
+		// 	isFlag.value=true
+		// })
 	}
-	// 添加模板完成按钮 
-	const complete=(mas)=>{
-		console.log(mas);
+	
+	// 修改模板完成按钮
+	const Editcomplete=async (mas)=>{
+		mas.modelId=app1.value.modelId
+		const {data: res} = await proxy.$http.Exhibition.EditType(mas)
+		if (res.code !== 200) return proxy.$message.error('获取数据失败')
+		getData({
+			item:app1.value.modelId
+		})
 		VisibleAdd.value=false
-		 getData();
+	}
+	
+	// 添加模板完成按钮 
+	const complete=async (mas)=>{
+		// console.log(mas);
+		const {data: res} = await proxy.$http.Exhibition.AddType(mas)
+		if (res.code !== 200) return proxy.$message.error('获取数据失败')
+		VisibleAdd.value=false
 	}
 	onMounted(() => {
-	  getData();
+	  getData({
+			item:3
+		});
 	});
-	// const tempId=ref(1)
-	// 显示模板数据表单
+	// 存储显示数据
 	const form=ref({})
-	// console.log(proxy.$method.write.echartsShow(data.optiop));
-	data.optiop=proxy.$method.write.echartsShow(data.optiop)
-	const getData= ()=>{
-		// const {data: res} = await proxy.$http.Exhibition.getData({id})
-		// if (res.code !== 200) return proxy.$message.error('获取数据失败')
-		form.value=data
-		form.value.radio=radio.value-1
+	// 存储第一层数据
+	const app=ref({})
+	// 存储默认模板数据
+	const app1=ref({})
+	const getData=async (item)=>{
+		const {data: res1} = await proxy.$http.Exhibition.getType(item)
+		if (res1.code !== 200) return proxy.$message.error('获取数据失败')
+		// console.log(res1);
+		app1.value=res1.data
+		const {data: res} = await proxy.$http.Exhibition.getData()
+		if (res.code !== 200) return proxy.$message.error('获取数据失败')
+		app.value=res.data
+		form.value={}
+		refData(res.data,res1.data)
 	}
-	// 点击各个模块
-	const bigoptiop=ref([])
-	const clog=(index)=>{
-		VisibleBig.value=true
-		 // nextTick(() => {
-			 bigoptiop.value=form.value.optiop[index]
-		// })
-		// nextTick(() => {
-		// 	 bigoptiop.value=form.value.optiop[index]
-		// 	})
+	// 复用函数
+	const refData=(data,data2)=>{
+		isFlag.value=false
+		const optiop=[]
+		let m = 0
+		if (data2.modelType == 1) m = 7
+		else if (data2.modelType == 2) m = 4
+		else if (data2.modelType == 3) m = 6
+		else if (data2.modelType == 4) m = 5
+		optiop.length=m
+		for(let j=0;j<data2.list.length;j++){
+		const opt={}
+		if(data2.list[j]==""){
+			opt.type=0
+		}else{
+			opt.type=data2.list[j]
+		}
+		opt.XData=[]
+		opt.YData=[]
+		for(let i =0;i<data.length;i++){
+			opt.XData.push(data[i].name)
+			opt.YData.push(data[i].counts)
+		}
+		optiop[j]=opt
+		}
+		form.value.optiop=proxy.$method.write.echartsShow(optiop)
+		
+		// form.value=data
+		form.value.radio=data2.modelType
+		form.value.name=data2.modelName
+		nextTick(()=>{
+			isFlag.value=true
+		})
 	}
+	const isFlag =ref(true)
+	const first=ref({})
+	// 进入详细页面
+	const info=ref({})
+	const echartClick=async (e)=>{
+		for(let i=0; i<app.value.length;i++){
+			if(app.value[i].name==e){
+				info.value.facility=app.value[i].facility
+				info.value.host=app.value[i].host
+			}
+		}
+		if(e=="WARN" || e=="NOTICE" || e=="ERROR"){
+			const routeUrl = router.resolve({
+			       path: "/selectTotal",
+				   query:{
+					   info:proxy.$method.read.encode(
+					   JSON.stringify(
+					   {
+						   "facility": info.value.facility,
+						   "host": info.value.host,
+						   "level":e,
+					   })
+					   )
+					}
+			     });
+			     window.open(routeUrl.href, "_blank");
+		}else{
+		
+		const {data: res} = await proxy.$http.Exhibition.getList(info.value)
+		if (res.code !== 200) return proxy.$message.error('获取数据失败')
+		// const {data: res2} = await proxy.$http.Exhibition.getOPrg({level:"NOTICE"})
+		// if (res2.code !== 200) return proxy.$message.error('获取数据失败')
+		first.value=res.data
+		isFlag.value=false
+		const optiop=[]
+		let m = 0
+		if (app1.value.modelType == 1) m = 7
+		else if (app1.value.modelType == 2) m = 4
+		else if (app1.value.modelType == 3) m = 6
+		else if (app1.value.modelType == 4) m = 5
+		optiop.length=m
+		for(let j=0;j<app1.value.list.length;j++){
+		const opt={}
+		if(app1.value.list[j]==""){
+			opt.type=0
+		}else{
+			opt.type=app1.value.list[j]
+		}
+		opt.XData=[]
+		opt.YData=[]
+		for(let i =0;i<res.data.length;i++){
+			opt.XData.push(res.data[i].level)
+			opt.YData.push(res.data[i].counts)
+		}
+		optiop[j]=opt
+		}
+		form.value.optiop=proxy.$method.write.echartsShow(optiop)
+		// form.value=data
+		form.value.radio=app1.value.modelType
+		form.value.name=app1.value.modelName
+		nextTick(()=>{
+			isFlag.value=true
+		})
+		}
+	}
+	// // 点击各个模块
+	// const bigoptiop=ref([])
+	// const isdialog=ref(true)
+	// const clog=(index)=>{
+	// 	VisibleBig.value=true
+	// 	// isdialog.value=false
+	// 	 // nextTick(() => {
+	// 		 bigoptiop.value=form.value.optiop[index]
+	// 		 // console.log(bigoptiop.value);
+	// 	// })
+	// 	// nextTick(() => {
+	// 	// 	isdialog.value=true
+	// 	// })
+	// }
 </script>
 
 <style scoped lang="scss">
@@ -382,11 +364,11 @@
 				height:100%;
 			}
 			.show {
-				width: 60%;
+				width: 80%;
 				height: 100%;
 				padding-top: 0.4rem;
-				padding-left: 3rem;
-				padding-right: 1rem;
+				padding-left: 10%;
+				// padding-right: 1rem;
 			}
 
 			.btn-list {

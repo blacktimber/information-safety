@@ -9,7 +9,8 @@
 		getCurrentInstance,
 		onMounted,
 		defineProps,
-		toRefs
+		toRefs,
+		defineEmits
 	} from 'vue'
 	const props = defineProps({
 		//子组件接收父组件传递过来的值
@@ -25,9 +26,16 @@
 	// 基本柱形图
 	const ech = ref(null);
 	onMounted(() => {
-		changeBar();
+		// console.log(option);
+		if(option.value!=undefined){
+			changeBar();
+		}
+		
 	});
-	
+	const emit = defineEmits(['echartClick'])
+	const echartClick=(params)=>{
+		emit('echartClick',params)
+	}
 	const changeBar = () => {
 		const myEChart = proxy.$echarts.init(ech.value);
 		myEChart.setOption(option.value);
@@ -37,7 +45,8 @@
 		});
 		myEChart.on('click', function(params) {
 		  // 控制台打印数据的名称
-		  console.log(params.name);
+		  // console.log(params.name);
+		  echartClick(params.name)
 		});
 	}
 </script>

@@ -22,7 +22,7 @@
 	const parentMsg=ref([
 	  {url: '/visualization/Exhibition', title: '分析展示', beforeImg: img5, activeImg: img1, isActive: true,
 	  },
-	  {url: '/visualization/Administration', title: '可视化管理', beforeImg: img6, activeImg: img2, isActive: false,
+	  {url: '/visualization/Administration', title: '可视化模板', beforeImg: img6, activeImg: img2, isActive: false,
 	  },
 	  ])
 	const title=ref('可视化策略体系')

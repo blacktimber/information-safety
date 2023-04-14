@@ -22,7 +22,7 @@ export default createStore({
 			   right: "10%"
 			 },
 			grid: {
-			  top: "20%",
+			  top: "5%",
 			  left: "3%",
 			  right: "4%",
 			  bottom: "3%",
@@ -37,9 +37,12 @@ export default createStore({
 				// axisTick: {
 				//   show: false // 去除刻度线
 				// },
-				// axisLabel: {
-				//   color: "#4c9bfd" // 文本颜色
-				// },
+				axisLabel: {
+				  color: "rgba(0,0,0,.8)",
+				  fontSize: "12",
+				  interval: 0,
+				  rotate: 20
+				},
 				// axisLine: {
 				//   show: false // 去除轴线
 				// }
@@ -77,9 +80,9 @@ export default createStore({
 			  }
 			},
 			grid: {
-			  left: "0%",
-			  top: "10px",
-			  right: "0%",
+			  left: "5%",
+			  top: "5%",
+			  right: "5%",
 			  bottom: "4%",
 			  containLabel: true
 			},
@@ -89,7 +92,12 @@ export default createStore({
 			axisTick: {
 			  alignWithLabel: true
 			},
-			
+			axisLabel: {
+			  color: "rgba(0,0,0,.8)",
+			  fontSize: "12",
+			  interval: 0,
+			  rotate: 20
+			},
     		},
     		yAxis: {
     			type: 'value'
@@ -100,7 +108,12 @@ export default createStore({
     			showBackground: true,
     			backgroundStyle: {
     				color: 'rgba(180, 180, 180, 0.2)'
-    			}
+    			},
+				barWidth: '30%',
+				itemStyle: {
+					// 修改柱子圆角
+				borderRadius : 2
+				}
     	 }]
     	},
 		// 饼图
@@ -115,13 +128,22 @@ export default createStore({
 		  },
 		  legend: {
 		   top: '2%',
-				left: 'center'
+				left: 'center',
+				// orient: 'vertical',
 		  },
 		  series: [
 		    {
 		      name: 'Access From',
 		      type: 'pie',
 		      radius: '50%',
+			  // 不显示标签文字
+			  label: {
+			  	show: false
+			  },
+			  // 不显示连接线
+			  labelLine: {
+			  	show: false
+			  },
 		      data: [
 		        { value: 1048, name: 'Search Engine' },
 		        { value: 735, name: 'Direct' },
@@ -156,7 +178,7 @@ export default createStore({
 			   right: "10%"
 			 },
 			grid: {
-			  top: "20%",
+			  top: "5%",
 			  left: "3%",
 			  right: "4%",
 			  bottom: "3%",
@@ -167,7 +189,13 @@ export default createStore({
 		  xAxis: {
 		    type: 'category',
 		    boundaryGap: false,
-		    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+		    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+			axisLabel: {
+			  color: "rgba(0,0,0,.8)",
+			  fontSize: "12",
+			  interval: 0,
+			  rotate: 20
+			},
 		  },
 		  yAxis: {
 		    type: 'value'
@@ -183,7 +211,7 @@ export default createStore({
 		// 横向柱状图+
 		{
 		  title: {
-		    text: 'World Population'
+		    text: ''
 		  },
 		  tooltip: {
 		    trigger: 'axis',
@@ -200,15 +228,22 @@ export default createStore({
 		  },
 		  xAxis: {
 		    type: 'value',
-		    boundaryGap: [0, 0.01]
+		    boundaryGap: [0, 0.01],
+			axisLabel: {
+			  color: "rgba(0,0,0,.8)",
+			  fontSize: "12",
+			  interval: 0,
+			  rotate: 20
+			},
 		  },
 		  yAxis: {
 		    type: 'category',
-		    data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World']
+		    data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World'],
+			
 		  },
 		  series: [
 		    {
-		      name: '2011',
+		      // name: '2011',
 		      type: 'bar',
 		      data: [18203, 23489, 29034, 104970, 131744, 630230]
 		    },
@@ -221,7 +256,8 @@ export default createStore({
 		  },
 		  legend: {
 		    top: '2%',
-		    left: 'center'
+		    left: 'center',
+			// orient: 'vertical',
 		  },
 		  series: [
 		    {

@@ -19,6 +19,11 @@ const routes = [
     component: () => import('../views/NotFoundView.vue')
   },
   {
+    path: "/selectTotal",
+    name:'selectTotal',
+    component: () => import('../views/selectTotal.vue')
+  },
+  {
     path: "/:catchAll(.*)",
     redirect: {
       name:'notFound'
@@ -28,9 +33,9 @@ const routes = [
 ]
 
 const router = createRouter({
-  // history: createWebHistory(process.env.BASE_URL),
-   
-  history: createWebHashHistory(),
+  history: createWebHistory(process.env.BASE_URL),
+    // history: createWebHistory(),
+  // history: createWebHashHistory(),
 
   routes
 })

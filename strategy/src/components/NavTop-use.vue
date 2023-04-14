@@ -266,7 +266,7 @@
         min-width: 400px;
         margin: 0.2rem 0rem;
         border-radius: 15px;
-        height: 110%;
+        height: 108.5%;
       }
     }
   }

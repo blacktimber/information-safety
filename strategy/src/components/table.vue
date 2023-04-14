@@ -111,7 +111,15 @@
 	.pagination-container{
 		float: right;
 	}
-	.cell{
-		  white-space: nowrap; 
+	/deep/.cell{
+		 word-break: break-all;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 6;
+		overflow: hidden; 
+	}
+	/deep/.cell:hover{
+		-webkit-line-clamp: unset !important;
 	}
 </style>
