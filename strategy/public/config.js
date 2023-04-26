@@ -1,6 +1,7 @@
 let GOURL ='http://'+location.hostname
 window.g = {
   BASE_URL:" http://192.168.88.226:8001",
+  // BASE_URL:" http://192.168.88.226:8203",
   GOURL1:GOURL+":8001",
   GOURL2:GOURL+":8002",
   GOURL3:GOURL+":8003",

@@ -43,6 +43,7 @@ request.interceptors.request.use(config => {
     return Promise.reject(error);
 })
 request.interceptors.response.use(config => {
+	console.log(config);
 	 if(config.data.code !== 200){
 		 ElMessage.error(config.data.msg);
 	 }
@@ -50,6 +51,7 @@ request.interceptors.response.use(config => {
     return config
 },
     error => {
+		console.log(error);
         endLoading()
         if (error && error.response && error.response.status) {
             ElMessage.error(error.response.data.msg);

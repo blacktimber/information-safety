@@ -3,6 +3,11 @@
 		<el-dialog :title="title" :model-value="dialogVisibleAdd" :close-on-click-modal="false" width="50%"
 			@close='closeDia' style="border-radius: 10px;">
 			<el-form label-width='20%' status-icon ref="cgThisRegRef">
+				<!-- <el-form-item prop='log'>
+					<span >
+						SELECT * FROM 表 WHERE </span>
+					<el-input class="text-center" v-model='StrNameEdit' type="textarea"></el-input>
+				</el-form-item> -->
 				<el-form-item prop='log'>
 					<span
 						style="margin-left: -30px; font-size: 22px;font-weight: 600;position: absolute;left: -80px;top:24px">
@@ -262,8 +267,8 @@
 				type.value = options.value[i].type
 			}
 		}
-		if (!type.value.indexOf('int')) {
-			lakey.value = "int"
+		if (!type.value.indexOf("INT")) {
+			lakey.value = "INT"
 			option1.value = [{
 					value: '>',
 					label: '>',
@@ -285,8 +290,8 @@
 					label: '>=',
 			 }
 			]
-		} else if (!type.value.indexOf('varchar')) {
-			lakey.value = "char"
+		} else if (!type.value.indexOf("VARCHAR")) {
+			lakey.value = "VARCHAR"
 			option1.value = [{
 					value: '=',
 					label: '=',
@@ -301,7 +306,7 @@
 				}
 			]
 		} else {
-			lakey.value = "time"
+			lakey.value = "DATE"
 			option1.value = [{
 					value: '>',
 					label: '>',

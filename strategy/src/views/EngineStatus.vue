@@ -2,7 +2,7 @@
 	<div>
 		<div class="top" >
 			<span>目前开启引擎数量：{{total}}个</span>
-			  <el-button @click="addNum">修改数量</el-button>
+			  <!-- <el-button @click="addNum">修改数量</el-button> -->
 		</div>
 		<tableInfo v-if="status" @CurrentChange="CurrentChange" :keyss="keyss" :tableList="tableList" 
 		:keywordsList="keywordsList1" :queryInfo="queryInfo"  :label="label"/>

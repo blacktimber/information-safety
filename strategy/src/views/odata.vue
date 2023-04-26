@@ -4,7 +4,7 @@
 			  <el-button @click="addSource">添加</el-button>
 		</div>
 		<dataSource :labels="labels" @handleClick='handleClick'>
-				<template #yyfName>
+				<template #>
 					<tableInfo :keyss="keyss" @CurrentChange="CurrentChange" @updateKeywords="updateKeywords"
 					 @deleteKeywords="deleteKeywords" :tableList="tableList" 
 					 :keywordsList="keywordsList" :queryInfo="queryInfo" 
@@ -82,12 +82,8 @@
 	}
 	// tabs切换
 	const handleClick = tab => {
-	  for (let i = 0; i < labels.length; i++) {
-	    if (tab.props.label === labels[i].yyfName) {
-	      queryInfoIp.facility = labels[i].yyfFacility
-	      queryInfoIp.host = labels[i].yyfHost
-	    }
-	  }
+	  queryInfoIp.facility = labels[tab].yyfFacility
+	  queryInfoIp.host = labels[tab].yyfHost
 	  getKeywordsList()
 	}
 	const CurrentChange=(val)=>{
@@ -203,6 +199,7 @@
 	const gowords= async (item) =>{
 		const cc=item.strategy
 		    const {data: res} = await proxy.$http.Odata.selectTotal({sql: cc})
+			console.log(res);
 		    if (res.code !== 200) return proxy.$message.error('运行策略失败')
 			const name=item.remark
 			const sqls=item.strategy

@@ -1,11 +1,26 @@
 <template>
 	<div>
 		<div class="right_words">
-            <el-table :data="keywordsList"  :header-cell-style="headerStyle" max-height="6.5rem" 
+            <el-table :data="keywordsList"  :header-cell-style="headerStyle" max-height="5rem" 
                       :cell-style="cellStyle" >
-              <el-table-column v-for="(item,index) in tableList" :key="index" :prop="keyss[index]" :label="item.title">
-			  </el-table-column>
+              <el-table-column v-for="(item,index) in tableList" :key="index" :prop="keyss[index]" :label="item.title"/>
               <!-- <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.title"/> -->
+			  <el-table-column :label="label" v-if="label=='操作'">
+				   <template #default="scope">
+					   <el-button  class="butn" :icon="Edit" size='large' @click='updateKeywords(scope.row)'
+					              title="编辑策略"></el-button>
+					   <el-button class="butn" :icon="Delete" size='large' @click='deleteKeywords(scope.row.id)'
+					              title="删除策略"></el-button>
+						<el-button class="butn" :icon="VideoPlay" size='large' @click='gowords(scope.row)'
+								             title="运行策略"></el-button>
+				   </template>
+              </el-table-column>
+			  <el-table-column :label="label" v-if="label=='下载'">
+			  				   <template #default="scope">
+			  					   <el-button  class="butn" :icon="Download" size='large' @click='download(scope.row)'
+			  					              title="下载日志"></el-button>
+			  				   </template>
+			  </el-table-column>
             </el-table>
           <el-pagination
               @current-change="handleCurrentChange"
@@ -15,7 +30,6 @@
               :current-page="queryInfo.currentPage"
               :page-size="queryInfo.pageSize"
               class="pagination-container"
-			  v-if="isFlag"
           />
           </div>
 		  </div>
@@ -28,35 +42,15 @@
 	import {ref, toRefs, defineProps,defineEmits } from 'vue'
 	const props = defineProps({
 	  //子组件接收父组件传递过来的值
-	  keywordsList: {
-	        type: Array,
-	        default:() => [],
-	      },
-	  tableList: {
-	        type: Array,
-	        default: () =>[],
-	      },
- 
-	  total: {
-	        type: Number,
-	        default:() =>0,
-	      },
-	  queryInfo: {
-	        type: Object,
-	        default:() => {},
-	      },
-	  keyss: {
-	        type: Array,
-	        default:() => [],
-	      },
-		  isFlag:{
-			  type:Boolean,
-			  default:true
-		  }
+	  keywordsList: Array,
+	  tableList:Array,
+	  total:Number,
+	  queryInfo:Object,
+	  label:String,
+	  keyss:Array
 	})
 	//使用父组件传递过来的值
-	const {keywordsList,tableList,total,queryInfo,keyss ,isFlag} =toRefs(props)
-	console.log(isFlag);
+	const {keywordsList,tableList,total,queryInfo,label,keyss} =toRefs(props)
 	// 表头样式
 	const headerStyle=()=>{
 		return {
@@ -128,5 +122,4 @@
 	/deep/.cell:hover{
 		-webkit-line-clamp: unset !important;
 	}
-	
 </style>

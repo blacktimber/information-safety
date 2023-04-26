@@ -34,7 +34,7 @@
 		        </el-menu-item>
 		      </template>
 				  <div class="left_url" >
-						<img   v-for="(item, index) in imglist" :key="index":src="item.src" :alt="item.alt" :title="item.imgtitle" @click="gotopath(item.goUrl)">
+				  		<img v-for="(item, index) in imglist" :key="index" :src="item.src" :alt="item.alt" :title="item.imgtitle" @click="gotopath(item.goUrl)">
 				  </div>
 		    </el-menu>
 	  </el-aside>
