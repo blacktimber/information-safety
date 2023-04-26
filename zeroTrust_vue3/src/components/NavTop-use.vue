@@ -270,7 +270,7 @@
 						justify-content: space-around;
 
 						img {
-							width: 20%;
+							width: 17%;
 							padding: 0.6%;
 							height: auto;
 							display: block;

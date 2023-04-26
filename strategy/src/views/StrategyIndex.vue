@@ -30,9 +30,9 @@
 	])
 	const title=ref('标准化策略语言')
 	const imginfo=ref([
-		{src:img11,alt:"可视化策略体系系统",imgtitle:"前往可视化策略体系系统",goUrl:"http://127.0.0.1:8004"},
-		{ src:img13,alt:"零信任工作平台",imgtitle:"前往零信任工作平台",goUrl:"http://127.0.0.1:8005"},
-		{src:img14,alt:"日志预处理系统",imgtitle:"前往日志预处理系统",goUrl:"http://127.0.0.1:8002"},
+		{src:img11,alt:"可视化策略体系系统",imgtitle:"前往可视化策略体系系统",goUrl:window.g.GOURL3},
+		{ src:img13,alt:"零信任工作平台",imgtitle:"前往零信任工作平台",goUrl:window.g.GOURL4},
+		{src:img14,alt:"日志预处理系统",imgtitle:"前往日志预处理系统",goUrl:window.g.GOURL1},
 	])
 </script>
 

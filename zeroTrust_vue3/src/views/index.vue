@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<NavTop :info="parentMsg" :title="title" :imginfo="imginfo" :logImg="img11">
+		<NavTop :info="parentMsg" :title="title" :imginfo="imginfo" :logImg="img13">
 			<template #><router-view /></template>
 		</NavTop>
 	</div>
