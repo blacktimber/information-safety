@@ -1,7 +1,7 @@
 <template>
 	<div class="exbody">
 		<div class="strps" v-if="VisibleAdd">
-			<strps @goOut="goOut" @complete="complete"  @Editcomplete="Editcomplete" :formss="form" :visible="Visibletwo"/>
+			<strps @goOut="goOut" @complete="complete"  @Editcomplete="Editcomplete" :formss="app1" :visible="Visibletwo"/>
 		</div>
 		<div class="exbody_main" v-if="!VisibleAdd">
 			<div class="title">
@@ -47,6 +47,10 @@
 						<Edit class="btnss_icon" @click="dialogEdit"/>
 						<span> 修改 </span>
 					</div>
+					<div class="btnss">
+						<RefreshRight class="btnss_icon" @click="Refresh"/>
+						<span> 返回 </span>
+					</div>
 				</div>
 			</div>
 
@@ -68,19 +72,6 @@
 			</el-scrollbar>
 		</template>
 	</Dialog>
-	<!-- <el-dialog
-		class="bigop"
-	   :model-value="VisibleBig"
-	   :modal="false"
-	   :draggable="true"
-	   width="50%" 
-	   @close="VisibleBig=false"
-	   style="border-radius: 10px;
-		background-color:rgba(100,100,100,.2);
-		height: 70%;"
-	 >
-	 <echartsStep class="main_three" v-if="isdialog" :option="bigoptiop"/>
-	 </el-dialog> -->
 </template>
 
 <script setup>
@@ -88,7 +79,8 @@
 		Delete,
 		Edit,
 		CirclePlus,
-		Switch
+		Switch,
+		RefreshRight
 	} from '@element-plus/icons-vue'
 	import echartsStep from '@/components/echartsStep.vue'
 	import showBody from '@/components/Template/show.vue'
@@ -118,16 +110,17 @@
 	// 添加修改按钮弹出框
 	const VisibleAdd=ref(false)
 	// 放大模块
-	const VisibleBig = ref(false)
 	const radio = ref(1)
 	const radioList=ref([])
-	// const optionEcharts= ref([])
+	const Refresh =()=>{
+		getData({
+			item:app1.value.modelId
+		})
+	}
 	// 打开添加按钮
 	const dialogAdd = () => {
 		Visibletwo.value=false
 		VisibleAdd.value=true
-			
-		
 	}
 	//删除弹框打开按钮
 	const dialogDelete = () => {
@@ -138,7 +131,11 @@
 		}
 	}
 	// 删除弹框确定按钮
-	const determineDelete = (flag) => {
+	const determineDelete =async (flag) => {
+		const {data: res} = await proxy.$http.Exhibition.DeleteType({item:app1.value.modelId})
+		if (res.code !== 200) return proxy.$message.error('删除模板失败')
+	    proxy.$message.success('删除模板成功')
+		console.log(res);
 		dialogVisibleDelete.value = flag.value
 		getData({
 			item:3
@@ -191,7 +188,7 @@
 	const Editcomplete=async (mas)=>{
 		mas.modelId=app1.value.modelId
 		const {data: res} = await proxy.$http.Exhibition.EditType(mas)
-		if (res.code !== 200) return proxy.$message.error('获取数据失败')
+		if (res.code !== 200) return proxy.$message.error('修改模板失败')
 		getData({
 			item:app1.value.modelId
 		})
@@ -202,12 +199,15 @@
 	const complete=async (mas)=>{
 		// console.log(mas);
 		const {data: res} = await proxy.$http.Exhibition.AddType(mas)
-		if (res.code !== 200) return proxy.$message.error('获取数据失败')
+		if (res.code !== 200) return proxy.$message.error('添加模板失败')
 		VisibleAdd.value=false
+		getData({
+					item:app1.value.modelId
+				});
 	}
 	onMounted(() => {
 	  getData({
-			item:3
+			item:1
 		});
 	});
 	// 存储显示数据
@@ -326,20 +326,6 @@
 		})
 		}
 	}
-	// // 点击各个模块
-	// const bigoptiop=ref([])
-	// const isdialog=ref(true)
-	// const clog=(index)=>{
-	// 	VisibleBig.value=true
-	// 	// isdialog.value=false
-	// 	 // nextTick(() => {
-	// 		 bigoptiop.value=form.value.optiop[index]
-	// 		 // console.log(bigoptiop.value);
-	// 	// })
-	// 	// nextTick(() => {
-	// 	// 	isdialog.value=true
-	// 	// })
-	// }
 </script>
 
 <style scoped lang="scss">

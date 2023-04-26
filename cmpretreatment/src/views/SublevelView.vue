@@ -1,71 +1,54 @@
 <template>
-  <el-breadcrumb :separator-icon="ArrowRight">
+  <!-- <el-breadcrumb :separator-icon="ArrowRight">
     <el-breadcrumb-item>崇明区部门政务信息系统集成接入项目</el-breadcrumb-item>
     <el-breadcrumb-item>日志预处理系统</el-breadcrumb-item>
     <el-breadcrumb-item>分段操作</el-breadcrumb-item>
-  </el-breadcrumb>
-  <!--  <div class="top">-->
-  <!--    <el-date-picker-->
-  <!--        v-model="dateNow"-->
-  <!--        popper-class="elDatePicker"-->
-  <!--        type="daterange"-->
-  <!--        unlink-panels-->
-  <!--        range-separator="至"-->
-  <!--        start-placeholder="开始日期"-->
-  <!--        end-placeholder="结束日期"-->
-  <!--        :shortcuts="shortcuts"-->
-  <!--        :disabled-date="disabledDate"-->
-  <!--    />-->
-  <!--  </div>-->
-  <!--  <el-scrollbar height="200px">-->
-  <div style="margin-top: 1.3rem">
-    <div class="tab_title">数据源</div>
-    <el-tabs tab-position="left" class="demo-tabs" style="height: 80%" @tab-click="handleClick">
-      <template v-for="(item, i) in labels" :key="i">
-        <el-tab-pane :label="item.yyfName">
-          <div class="right_title">所有数据均来自于数据源：<p style="font-weight: bolder">{{ item.yyfName }}</p></div>
-          <div class="right_reg">
-            <div class="right_reg_title">
-              <p>正则表达式：</p>
-              <div class="right_reg_content">
-                <div class="showReg">
-                  <p v-for="(itemSon, iSon) in subList.regList" :key="iSon">{{ itemSon.yyrName }} : {{
-                      itemSon.yyrRegular
-                    }}</p>
-                </div>
-                <p >
-                  <template v-for="(itemSon, iSon) in subList.regList" :key="iSon">
-                    {{ itemSon.yyrName }} : {{itemSon.yyrRegular }}&nbsp;&nbsp;&nbsp;
-                  </template>
-                  </p>
-              </div>
-            </div>
+  </el-breadcrumb> -->
 
-            <div class="right_reg_btn">
-              <!--              <el-button :icon="MagicStick" title="测试" @click="testReg"></el-button>-->
-              <el-button :icon="Edit" title="修改正则" @click="changeReg"></el-button>
-            </div>
-          </div>
-          <div class="right_data">
-            <template v-for="(itemGirl, iGirl) in subList.logList" :key="iGirl">
-              <div class="content_box">
-                <div class="content_old">正则规则：{{ itemGirl.regularKey }}</div>
-                <div class="content_results">
-                  <p style="height: 50px; line-height: 50px;">正则结果:&nbsp;&nbsp;</p>
-                  <template v-for="(itemGirlSon, iGirlSon) in itemGirl.regularValues" :key="iGirlSon">
-                    <div class="content_result" v-if="itemGirlSon !== ''" @click="toDetail(itemGirlSon)">{{itemGirlSon}}</div>
-                  </template>
-                </div>
-              </div>
-            </template>
-          </div>
-        </el-tab-pane>
-      </template>
-    </el-tabs>
-  </div>
-
-  <!--  </el-scrollbar>-->
-
+  <div>
+	  <div class="top" >
+	  	<div>设备源</div>
+	  </div>
+	   <dataSource :labels="labels" @handleClick='handleClick'>
+	   		<template #>
+	   			<div class="right_title">所有数据均来自于数据源：<p style="font-weight: bolder">{{title}}</p></div>
+	   			<div class="right_reg">
+	   			  <div class="right_reg_title">
+	   			    <p>正则表达式：</p>
+	   			    <div class="right_reg_content">
+	   			      <div class="showReg">
+	   			        <p v-for="(itemSon, iSon) in subList.regList" :key="iSon">{{ itemSon.yyrName }} : {{
+	   			            itemSon.yyrRegular
+	   			          }}</p>
+	   			      </div>
+	   			      <p >
+	   			        <template v-for="(itemSon, iSon) in subList.regList" :key="iSon">
+	   			          {{ itemSon.yyrName }} : {{itemSon.yyrRegular }}&nbsp;&nbsp;&nbsp;
+	   			        </template>
+	   			        </p>
+	   			    </div>
+	   			  </div>
+	   			
+	   			  <div class="right_reg_btn">
+	   			    <el-button :icon="Edit" title="修改正则" @click="changeReg"></el-button>
+	   			  </div>
+	   			</div>
+	   			<div class="right_data">
+	   			  <template v-for="(itemGirl, iGirl) in subList.logList" :key="iGirl">
+	   			    <div class="content_box">
+	   			      <div class="content_old">正则规则：{{ itemGirl.regularKey }}</div>
+	   			      <div class="content_results">
+	   			        <p style="height: 50px; line-height: 50px;">正则结果:&nbsp;&nbsp;</p>
+	   			        <template v-for="(itemGirlSon, iGirlSon) in itemGirl.regularValues" :key="iGirlSon">
+	   			          <div class="content_result" v-if="itemGirlSon !== ''" @click="toDetail(itemGirlSon)">{{itemGirlSon}}</div>
+	   			        </template>
+	   			      </div>
+	   			    </div>
+	   			  </template>
+	   			</div>
+	   		</template>
+	   </dataSource>
+  
   <!--  添加日志源-->
   <el-dialog
       title="修 改 正 则 规 则"
@@ -117,12 +100,14 @@
       </div>
     </el-form>
   </el-dialog>
+  </div>
 </template>
 
 <script setup>
 import {
   ArrowRight, Edit
 } from '@element-plus/icons-vue'
+import dataSource from '@/components/Scrollbar.vue'
 import {onMounted, reactive, ref, getCurrentInstance} from "vue";
 import {useRouter} from "vue-router";
 // import img from "@/assets/imgs/warning.png";
@@ -186,19 +171,18 @@ const getAllOdataName = async () => {
     labels.push(res.data[i])
   }
   queryInfo.yyrHost = labels[0].yyfHost
+  title.value=labels[0].yyfName
   queryInfo.yyrFacility = labels[0].yyfFacility
   getReg()
   getRegAndSub()
 }
+const title=ref("")
 // tabs切换
 const handleClick = tab => {
-  console.log('tab', tab)
-  for (let i = 0; i < labels.length; i++) {
-    if (tab.props.label === labels[i].yyfName) {
-      queryInfo.yyrHost = labels[i].yyfHost
-      queryInfo.yyrFacility = labels[i].yyfFacility
-    }
-  }
+ title.value=labels[tab].yyfName
+ queryInfo.facility = labels[tab].yyfFacility
+ queryInfo.host = labels[tab].yyfHost
+ console.log(queryInfo);
   getReg()
   getRegAndSub()
 }
@@ -327,31 +311,41 @@ const toDetail = item => {
 </script>
 
 <style scoped lang="scss">
+// .top {
+//   width: 100%;
+//   height: 50px;
+//   box-sizing: border-box;
+//   position: relative;
+//   margin: 20px 0 50px;
+
+//   :deep(.el-range-editor.el-input__wrapper) {
+//     position: absolute;
+//     right: 0.4rem;
+//     background-color: rgb(18, 16, 29);
+//     border-radius: 15px;
+//     height: 40px;
+//   }
+
+//   :deep(.el-date-editor .el-range-input) {
+//     color: white;
+//     font-weight: bolder;
+//   }
+
+//   :deep(.el-date-editor .el-range-separator) {
+//     color: white;
+//   }
+// }
 .top {
-  width: 100%;
-  height: 50px;
-  box-sizing: border-box;
-  position: relative;
-  margin: 20px 0 50px;
-
-  :deep(.el-range-editor.el-input__wrapper) {
-    position: absolute;
-    right: 0.4rem;
-    background-color: rgb(18, 16, 29);
-    border-radius: 15px;
-    height: 40px;
-  }
-
-  :deep(.el-date-editor .el-range-input) {
-    color: white;
-    font-weight: bolder;
-  }
-
-  :deep(.el-date-editor .el-range-separator) {
-    color: white;
-  }
-}
-
+	  width: 100%;
+	  box-sizing: border-box;
+	height: 1rem;
+	font-size: 0.4rem;
+	text-align: left;
+	padding: 0.2rem;
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+	}
 .tab_title {
   font-size: 0.3rem;
   font-weight: bolder;

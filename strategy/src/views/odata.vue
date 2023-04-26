@@ -38,7 +38,7 @@
 
 <script setup>
 	import {WarningFilled} from '@element-plus/icons-vue'
-	import dataSource from '@/components/dataSource.vue'
+	import dataSource from '@/components/Scrollbar.vue'
 	import tableInfo from '@/components/table.vue'
 	import StrDialog from '@/components/StrDialog.vue'
 	import warning from '@/assets/imgs/warning.png'

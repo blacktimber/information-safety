@@ -52,7 +52,6 @@
 <style scoped lang="scss">
 		.showlist {
 			margin-top: 0.3rem;
-			height: 90%;
 			display: flex;
 			flex-wrap: wrap;
 			width: 100%;
@@ -64,7 +63,6 @@
 				margin-bottom: 0.8rem;
 				margin-left: 1.5rem;
 				font-size: 0.26rem;
-
 				.name {
 					margin-top: 0.10rem;
 					justify-content: center;

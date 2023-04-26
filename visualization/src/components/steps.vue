@@ -10,17 +10,17 @@
 			<div class="main_first" v-if="active==0">
 				<div style="margin-bottom: 0.3rem;">
 					<span>模 板 名 字 </span>
-					<el-input class="text-center" v-model="form.name" style="width:6.48rem; margin-left: 0.2rem">
+					<el-input class="text-center" v-model="form.modelName" style="width:6.48rem; margin-left: 0.2rem">
 					</el-input>
 				</div>
 				<div>
 					<span>模 板 备 注 </span>
-					<el-input class="text-center" v-model="form.remarks" style="width:6.48rem; margin-left: 0.2rem;">
+					<el-input class="text-center" v-model="form.modelRemark" style="width:6.48rem; margin-left: 0.2rem;">
 					</el-input>
 				</div>
 			</div>
 			<div class="main_second" v-if="active==1">
-				<el-radio-group v-model="form.radio" text-color="#ffffff" fill="#ffffff">
+				<el-radio-group v-model="form.modelType" text-color="#ffffff" fill="#ffffff">
 			 	<el-radio :label="1">
 						<div class="radio_div">
 							<showBody />
@@ -44,7 +44,7 @@
 				</el-radio-group>
 		 </div>
 			<div class="main_third" v-if="active==2">
-				<div class="add" v-if="form.radio==1">
+				<div class="add" v-if="form.modelType==1">
 					<showBody>
 						<template v-for="item of 7" :key="item" v-slot:[item]>
 							<span v-if="!showflag[item]" class="addSpan" @click="add(item)">+</span>
@@ -52,7 +52,7 @@
 						</template>
 					</showBody>
 				</div>
-				<div class="add" v-if="form.radio==2">
+				<div class="add" v-if="form.modelType==2">
 					<custom>
 						<template v-for="item of 4" :key="item" v-slot:[item]>
 							<span v-if="!showflag[item]" class="addSpan" @click="add(item)">+</span>
@@ -60,7 +60,7 @@
 						</template>
 					</custom>
 				</div>
-				<div class="add" v-if="form.radio==3">
+				<div class="add" v-if="form.modelType==3">
 					<custom2>
 						<template v-for="item of 6" :key="item" v-slot:[item]>
 							<span v-if="!showflag[item]" class="addSpan" @click="add(item)">+</span>
@@ -68,7 +68,7 @@
 						</template>
 					</custom2>
 				</div>
-				<div class="add" v-if="form.radio==4">
+				<div class="add" v-if="form.modelType==4">
 					<custom3>
 						<template v-for="item of 7" :key="item" v-slot:[item]>
 							<span v-if="!showflag[item]" class="addSpan" @click="add(item)">+</span>
@@ -129,6 +129,7 @@
 		useStore
 	} from 'vuex' // 引入useStore 方法
 	const store = useStore()
+	
 	const {
 		proxy
 	} = getCurrentInstance()
@@ -142,6 +143,7 @@
 		formss,
 		visible
 	} = toRefs(props)
+	console.log(formss);
 	onMounted(() => {
 		if (visible.value == false) {
 			form.value = {}
@@ -164,17 +166,17 @@
 	// 下一步
 	form.value.optiop = new Array()
 	const AddReg = () => {
-		if(form.value.radio!=0){
+		if(form.value.modelType!=0){
 			active.value = active.value + 1
 		}else{
 			console.log("ddd");
 		}
 		if (active.value == 2) {
 			let i = 0
-			if (form.value.radio == 1) i = 7
-			else if (form.value.radio == 2) i = 4
-			else if (form.value.radio == 3) i = 6
-			else if (form.value.radio == 4) i = 5
+			if (form.value.modelType == 1) i = 7
+			else if (form.value.modelType == 2) i = 4
+			else if (form.value.modelType == 3) i = 6
+			else if (form.value.modelType == 4) i = 5
 			showflag.value = {}
 			// form.value.optiop.length=i-1
 			type.value.length = i - 1
@@ -194,10 +196,10 @@
 		// 添加
 		const masage = {
 			"modelId": null,
-			"modelName": form.value.name,
-			"modelRemark": form.value.remarks,
+			"modelName": form.value.modelName,
+			"modelRemark": form.value.modelRemark,
 			"modelList": type.value.toString(),
-			"modelType": form.value.radio,
+			"modelType": form.value.modelType,
 			"list": null,
 		}
 		// emit('complete', masage)

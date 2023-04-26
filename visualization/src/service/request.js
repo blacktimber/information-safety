@@ -1,12 +1,14 @@
 import axios from "axios"
 import {ElLoading, ElMessage} from "element-plus";
+import { useRouter } from "vue-router";
+const router = useRouter()
 var baseURLStr = window.g.BASE_URL;
 const request = axios.create({
     // baseURL: "https://6043950n4x.oicp.vip:44960",
     // baseURL: "https://530008q6d3.zicp.fun:26711",
 	// baseURL: "http://43.143.197.144:8201",
 	// baseURL: "http://530008q6d3.zicp.fun:14288",
-	baseURL: baseURLStr,
+	baseURL: baseURLStr+"/charts",
     // baseURL: "http://192.168.88.223:8002",
     timeout: 6000
 })
@@ -41,26 +43,25 @@ request.interceptors.request.use(config => {
     }else {
         config.headers['Content-Type'] = 'application/json;charset=utf-8'
     }
-    // config.headers["Content-Type"] = "application/json;charset=utf-8"
-    const token = window.sessionStorage.getItem('token')
-    if (window.sessionStorage.getItem('token')) {
-        config.headers.Authorization = token
-        config.headers['token'] = token
-    }
-    // if (config.method === 'post') config.data = {unused: 0}
-    // if (config.method === 'post') {
-    //     let curPost = config.url.split('/')[config.url.split('/').length - 1]
-    //     if (curPost === 'uploadpicture' || curPost === 'uploadfile') {
-    //         return config
-    //     } else {
-    //         config.data = qs.stringify(config.data)
-    //     }
-    // }
+  const ss=document.cookie
+  function getCookieValue(key,cookies){
+  		  let cookiesArr=cookies.split(";")
+  		  for(let i of cookiesArr){
+  			  let coo= cookies.trim().split("=")
+  			  let keyname=coo[0]
+  			  if (keyname==key){
+  				  return coo[1]
+  			  }
+  		  }
+  	  }
+  let token= getCookieValue("token",ss)
+  if (token) {
+      config.headers['token'] = token
+  }
     startLoading()
     return config
 }, error => {
     endLoading()
-    console.log(error)
     return Promise.reject(error);
 })
 request.interceptors.response.use(config => {
@@ -81,8 +82,10 @@ request.interceptors.response.use(config => {
         endLoading()
         if (error && error.response && error.response.status) {
             switch (error.response.status) {
-                case 403:
-                    ElMessage.error(error.response.data.msg || "Token过期");
+                case 401:
+					ElMessage.error('Token过期')
+					document.cookie = "token=;Path=/ ";
+					window.open('/login',"_self")
                     break;
                 case 500:
                     ElMessage.error(error.response.data.msg);

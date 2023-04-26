@@ -11,7 +11,7 @@
             <img src="../assets/imgs/go2.png" alt="logo_son">
           </div>
           <p>Welcome</p>
-          <el-button>退 出</el-button>
+          <el-button @click="goOut">退 出</el-button>
         </div>
       </div>
     </div>
@@ -29,6 +29,13 @@
 // @ is an alias to /src
 // import Navtop from '@/components/NavTop.vue'
 import NavLeft from '@/components/NavLeft.vue'
+	import { useRouter } from "vue-router";
+	const router = useRouter()
+const goOut=()=>{
+		document.cookie = "token=;Path=/ ";
+		// window.sessionStorage.removeItem('token')
+		router.push("/login")
+	}
 </script>
 
 <style scoped lang="scss">

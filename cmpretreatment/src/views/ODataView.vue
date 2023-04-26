@@ -1,10 +1,10 @@
 <template>
   <div>
-  <el-breadcrumb :separator-icon="ArrowRight">
+  <!-- <el-breadcrumb :separator-icon="ArrowRight">
     <el-breadcrumb-item>崇明区部门政务信息系统集成接入项目</el-breadcrumb-item>
     <el-breadcrumb-item>日志预处理系统</el-breadcrumb-item>
     <el-breadcrumb-item>日志源管理</el-breadcrumb-item>
-  </el-breadcrumb>
+  </el-breadcrumb> -->
   <div class="top">
     <el-button @click="addOdata">添 加</el-button>
   </div>

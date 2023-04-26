@@ -20,9 +20,7 @@
     </template>
 
     <div class="left_url">
-		 <div class="url_son"  v-for="(item, index) in imginfo" :key="index">
-		 	<img :src="item.src" :alt="item.alt" :title="item.imgtitle" @click="gotopath(item.goUrl)">
-		 	</div>
+		 	<img    v-for="(item, index) in imginfo" :key="index" :src="item.src" :alt="item.alt" :title="item.imgtitle" @click="gotopath(item.goUrl)">
     </div>
   </el-menu>
 </template>
@@ -51,9 +49,9 @@
     {url: '/pretreatment/keywords', title: '关 键 字 管 理', beforeImg: img8, activeImg: img4, isActive: false}
   ])
 const imginfo=ref([
-		{src:img12,alt:"标准化策略语言系统",imgtitle:"前往标准化策略语言系统",goUrl:"http://127.0.0.1:8003"},
-		{src:img11,alt:"可视化策略体系系统",imgtitle:"前往可视化策略体系系统",goUrl:"http://127.0.0.1:8004"},
-		{ src:img13,alt:"零信任工作平台",imgtitle:"前往零信任工作平台",goUrl:"http://127.0.0.1:8005"},
+		{src:img12,alt:"标准化策略语言系统",imgtitle:"前往标准化策略语言系统",goUrl:window.g.GOURL2},
+		{src:img11,alt:"可视化策略体系系统",imgtitle:"前往可视化策略体系系统",goUrl:window.g.GOURL3},
+		{ src:img13,alt:"零信任工作平台",imgtitle:"前往零信任工作平台",goUrl:window.g.GOURL4},
 	])
   onMounted(() => {
     // activeIndex.value = window.sessionStorage.getItem('activePath')
@@ -128,23 +126,22 @@ const imginfo=ref([
     background-color: white !important;
     color: black;
   }
-  .left_url {
-    height: 0.5rem;
-    display: flex;
-    justify-content: space-around;
-    position: absolute !important;
-    width: 90%;
-    bottom: 9%;
-    .url_son {
-      width: 0.5rem;
-      background-color: white;
-      border-radius: 50%;
-      img{
-        width: 90%;
-        transform: translateY(-0.37rem);
-        cursor: pointer;
-      }
-    }
-  }
+ .left_url {
+ 	position: absolute;
+ 	bottom: 6%;
+ 	display: flex;
+ 	justify-content: space-around;
+ 
+ 	img {
+ 		width: 20%;
+ 		padding: 0.6%;
+ 		height: auto;
+ 		display: block;
+ 		background-color: #fff;
+ 		border-radius: 50%;
+ 		transform: translateY(-0.37rem);
+ 		cursor: pointer;
+ 	}
+ }
 }
 </style>

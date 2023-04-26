@@ -15,6 +15,7 @@
               :current-page="queryInfo.currentPage"
               :page-size="queryInfo.pageSize"
               class="pagination-container"
+			  v-if="isFlag"
           />
           </div>
 		  </div>
@@ -27,14 +28,35 @@
 	import {ref, toRefs, defineProps,defineEmits } from 'vue'
 	const props = defineProps({
 	  //子组件接收父组件传递过来的值
-	  keywordsList: Array,
-	  tableList:Array,
-	  total:Number,
-	  queryInfo:Object,
-	  keyss:Array
+	  keywordsList: {
+	        type: Array,
+	        default:() => [],
+	      },
+	  tableList: {
+	        type: Array,
+	        default: () =>[],
+	      },
+ 
+	  total: {
+	        type: Number,
+	        default:() =>0,
+	      },
+	  queryInfo: {
+	        type: Object,
+	        default:() => {},
+	      },
+	  keyss: {
+	        type: Array,
+	        default:() => [],
+	      },
+		  isFlag:{
+			  type:Boolean,
+			  default:true
+		  }
 	})
 	//使用父组件传递过来的值
-	const {keywordsList,tableList,total,queryInfo,keyss} =toRefs(props)
+	const {keywordsList,tableList,total,queryInfo,keyss ,isFlag} =toRefs(props)
+	console.log(isFlag);
 	// 表头样式
 	const headerStyle=()=>{
 		return {

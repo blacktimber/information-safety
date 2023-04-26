@@ -1,15 +1,33 @@
 <template>
   <div>
-  <el-breadcrumb :separator-icon="ArrowRight">
+  <!-- <el-breadcrumb :separator-icon="ArrowRight">
     <el-breadcrumb-item>崇明区部门政务信息系统集成接入项目</el-breadcrumb-item>
     <el-breadcrumb-item>日志预处理系统</el-breadcrumb-item>
     <el-breadcrumb-item>分词操作</el-breadcrumb-item>
-  </el-breadcrumb>
-  <div style="margin-top: 1.3rem">
-      <div class="tab_title">
-        <div>数据源</div>
-      </div>
-      <el-tabs tab-position="left" class="demo-tabs" style="height: 100%" @tab-click="handleClick">
+  </el-breadcrumb> -->
+  <div >
+     <div class="top" >
+     	<div>设备源</div>
+     </div>
+	  <dataSource :labels="labels" @handleClick='handleClick'>
+	  		<template #>
+	  			<div class="right_title">所有数据均来自于数据源：<p style="font-weight: bolder">{{title}}</p></div>
+	  			<div class="right_words">
+	  			  <template v-for="(item, index) in words" :key="index">
+	  			    <div class="right_word">
+	  			      <div>{{item.keyWord}}:</div>
+	  			      <el-radio-group v-model="item.isCheck" class="ml-4">
+	  			        <el-radio :label="0">关键字</el-radio>
+	  			        <el-radio :label="1">非关键字</el-radio>
+	  			        <el-radio :label="2">用户字段</el-radio>
+	  			      </el-radio-group>
+	  			    </div>
+	  			  </template>
+	  			  <el-button :class="words.length < 10 ? 'bottom_button' : 'left_button'" @click="submitPartResult">提交</el-button>
+	  			</div>
+	  		</template>
+	  </dataSource>
+      <!-- <el-tabs tab-position="left" class="demo-tabs" style="height: 100%" @tab-click="handleClick">
         <template v-for="(item, i) in labels" :key="i">
           <el-tab-pane :label="item.yyfName">
             <div class="right_title">所有数据均来自于数据源：<p style="font-weight: bolder">{{ item.yyfName }}</p></div>
@@ -28,7 +46,7 @@
             </div>
           </el-tab-pane>
         </template>
-      </el-tabs>
+      </el-tabs> -->
   </div>
 </div>
 </template>
@@ -37,7 +55,8 @@
 import {
   ArrowRight
 } from '@element-plus/icons-vue'
-import {onMounted, reactive, getCurrentInstance} from "vue";
+import dataSource from '@/components/Scrollbar.vue'
+import {onMounted, reactive, getCurrentInstance,ref} from "vue";
 
 const {proxy} = getCurrentInstance()
 
@@ -57,18 +76,17 @@ const getAllOdataName = async () => {
     labels.push(res.data[i])
   }
   queryInfo.facility = labels[0].yyfFacility
+  title.value=labels[0].yyfName
   queryInfo.host = labels[0].yyfHost
   getPartResult()
 }
+const title=ref("")
 
 // tabs切换
 const handleClick = tab => {
-  for (let i = 0; i < labels.length; i++) {
-    if (tab.props.label === labels[i].yyfName) {
-      queryInfo.facility = labels[i].yyfFacility
-      queryInfo.host = labels[i].yyfHost
-    }
-  }
+	title.value=labels[tab].yyfName
+ queryInfo.facility = labels[tab].yyfFacility
+ queryInfo.host = labels[tab].yyfHost
   getPartResult()
 }
 
@@ -98,18 +116,18 @@ const submitPartResult = async () => {
 </script>
 
 <style scoped lang="scss">
-.tab_title {
-  font-size: 0.3rem;
-  font-weight: bolder;
-  position: absolute;
-  transform: translateY(-0.5rem);
-  display: flex;
-  width: 30%;
-  min-width: 500px;
-  div:nth-child(2) {
-    margin-left: 40%;
-  }
-}
+	.top {
+	  width: 100%;
+	  box-sizing: border-box;
+	height: 1rem;
+	font-size: 0.4rem;
+	text-align: left;
+	padding: 0.2rem;
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+	}
+
 .tabs_box {
   height: 80%;
   margin-top: 1rem;
@@ -134,6 +152,7 @@ const submitPartResult = async () => {
       width: 15%;
       line-height: 0.3rem;
       margin-right: 0.25rem;
+	  word-break: break-all;
     }
     :deep(.el-radio__input.is-checked .el-radio__inner) {
       border-color: black;

@@ -1,11 +1,12 @@
 <template>
 <div>
-  <el-breadcrumb :separator-icon="ArrowRight" >
+ <!-- <el-breadcrumb :separator-icon="ArrowRight" >
     <el-breadcrumb-item>崇明区部门政务信息系统集成接入项目</el-breadcrumb-item>
     <el-breadcrumb-item>日志预处理系统</el-breadcrumb-item>
     <el-breadcrumb-item>关键字管理</el-breadcrumb-item>
-  </el-breadcrumb>
+  </el-breadcrumb> -->
   <div class="top" >
+	  <div>设备源</div>
     <el-select v-model='queryInfo.type' placeholder="选择源名称" clearable @change="wordsTypeChange" :popper-append-to-body="false" popper-class="select-popper">
       <el-option
           v-for="item in type"
@@ -15,11 +16,37 @@
       />
     </el-select>
   </div>
-  <div style="margin-top: 0.6rem">
-    <div class="tab_title">
-      <div>数据源</div>
-    </div>
-    <el-tabs tab-position="left" class="demo-tabs" style="height: 100%" @tab-click="handleClick">
+  <div>
+	  <dataSource :labels="labels" @handleClick='handleClick'>
+	  		<template #>
+	  			<div class="right_title">所有数据均来自于数据源：<p style="font-weight: bolder">{{ title}}</p></div>
+	  			<div class="right_words">
+	  			  <el-table :data="keywordsList" style="width: 100%; margin-top: 25px" :row-style="rowState" :header-cell-style="headerStyle"
+	  			            :cell-style="cellStyle">
+	  			    <el-table-column prop="keyWord" label="词 汇 名 称"/>
+	  			    <el-table-column prop="isCheck" label="词 汇 类 别"/>
+	  			    <el-table-column label="操 作">
+	  			      <template #default="scope">
+	  			        <el-button type="primary" :icon="Delete" size='large' @click='deleteKeywords(scope.row.id)'
+	  			                   title="删除"></el-button>
+	  			        <el-button type="primary" :icon="Reading" size='large' @click='goKeywords(scope.row.keyWord)'
+	  			                   title="查看管理日志原文"></el-button>
+	  			      </template>
+	  			    </el-table-column>
+	  			  </el-table>
+	  			  <el-pagination
+	  			      @current-change="handleCurrentChange"
+	  			      background
+	  			      layout="prev, pager, next"
+	  			      :total="total"
+	  			      :current-page="queryInfo.currentPage"
+	  			      :page-size="queryInfo.pageSize"
+	  			      class="pagination-container"
+	  			  />
+	  			</div>
+	  		</template>
+	  </dataSource>
+  <!--  <el-tabs tab-position="left" class="demo-tabs" style="height: 100%" @tab-click="handleClick">
       <template v-for="(item, i) in labels" :key="i">
         <el-tab-pane :label="item.yyfName">
           <div class="right_title">所有数据均来自于数据源：<p style="font-weight: bolder">{{ item.yyfName }}</p></div>
@@ -49,7 +76,7 @@
           </div>
         </el-tab-pane>
       </template>
-    </el-tabs>
+    </el-tabs> -->
   </div>
   </div>
 </template>
@@ -58,6 +85,7 @@
 import {
   ArrowRight, Delete, Reading
 } from '@element-plus/icons-vue'
+import dataSource from '@/components/Scrollbar.vue'
 import {getCurrentInstance, onMounted, reactive, ref} from "vue";
 import img from "@/assets/imgs/warning.png";
 import {useRouter} from "vue-router";
@@ -111,24 +139,21 @@ onMounted(() => {
 const getAllOdataName = async () => {
   const {data: res} = await proxy.$http.BasicsService.getOlist()
   if (res.code !== 200) return proxy.$message.error('获取数据源列表失败')
-	console.log(res.data);
   labels.length = 0
   for (let i = 0; i < res.data.length; i++) {
     labels.push(res.data[i])
   }
   queryInfoIp.facility = labels[0].yyfFacility
+   title.value=labels[0].yyfName
   queryInfoIp.host = labels[0].yyfHost
   getKeywordsList()
 }
-
+const title=ref("")
 // tabs切换
 const handleClick = tab => {
-  for (let i = 0; i < labels.length; i++) {
-    if (tab.props.label === labels[i].yyfName) {
-      queryInfoIp.facility = labels[i].yyfFacility
-      queryInfoIp.host = labels[i].yyfHost
-    }
-  }
+ title.value=labels[tab].yyfName
+ queryInfo.facility = labels[tab].yyfFacility
+ queryInfo.host = labels[tab].yyfHost
   getKeywordsList()
 }
 // 获取分类词汇列表
@@ -139,7 +164,6 @@ const getKeywordsList = async () => {
   if (res.code !== 200) return proxy.$message.error('获取词库失败')
   // console.log(res.data.records)
   keywordsList.length = 0
-  console.log(res.data);
   for(let i = 0; i < res.data.records.length; i++) {
     if (res.data.records[i].isCheck === 0) res.data.records[i].isCheck = '关键字'
     if (res.data.records[i].isCheck === 1) res.data.records[i].isCheck = '非关键字'
@@ -198,12 +222,15 @@ const goKeywords = item => {
 
 <style scoped lang="scss">
 .top {
-  position: relative;
-  width: 100%;
-  height: 50px;
-  box-sizing: border-box;
-  margin: 20px 0;
-
+ width: 100%;
+	  box-sizing: border-box;
+	height: 1rem;
+	font-size: 0.4rem;
+	text-align: left;
+	padding: 0.2rem;
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
   .el-select {
     position: absolute;
     right: 0.4rem;

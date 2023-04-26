@@ -2,11 +2,13 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import api from './service'
+import login from './login'
 // 引入echarts
 import echarts from './echarts/echarts.js'
 import "element-plus/dist/index.css"
 import {components, plugins} from './utils/elementPlus'
 import method from './utils/data'
+import encrypt from './utils/encrypt'
 import '@/assets/css/reset.css'
 import '@/../public/js/rem'
 import '@/assets/css/common.css'
@@ -27,5 +29,6 @@ plugins.forEach(plugin => {
 app.config.globalProperties.$method = method
 app.config.globalProperties.$http = api
 app.config.globalProperties.$echarts = echarts;
-
+app.config.globalProperties.$login = login;
+app.config.globalProperties.$encrypt = encrypt
 app.use(router).use(store).mount('#app')

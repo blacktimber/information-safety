@@ -11,7 +11,7 @@
             <img :src="logImg" alt="logo_son">
           </div>
           <p>Welcome</p>
-          <el-button>退 出</el-button>
+          <el-button @click="goOut">退 出</el-button>
         </div>
       </div>
     </div>
@@ -34,9 +34,7 @@
 		        </el-menu-item>
 		      </template>
 				  <div class="left_url" >
-				  	<div class="url_son"  v-for="(item, index) in imglist" :key="index">
-						<img :src="item.src" :alt="item.alt" :title="item.imgtitle" @click="gotopath(item.goUrl)">
-						</div>
+						<img v-for="(item, index) in imglist" :key="index" :src="item.src" :alt="item.alt" :title="item.imgtitle" @click="gotopath(item.goUrl)">
 				  </div>
 		    </el-menu>
 	  </el-aside>
@@ -85,7 +83,13 @@
 	}
 	const gotopath=(index)=>{
 		window.open(index)
+		
 		// router.push(index)
+	}
+	const goOut=()=>{
+	document.cookie = "token=;Path=/ ";
+	// window.sessionStorage.removeItem('token')
+	router.push("/login")
 	}
 </script>
 
@@ -233,22 +237,20 @@
 		  //   color: black;
 		  // }
 		  .left_url {
-		    height: 0.5rem;
-		    display: flex;
-		    justify-content: space-around;
-		    position: absolute !important;
-		    width: 90%;
-		    bottom: 9%;
-			  .url_son {
-			    width: 0.5rem;
-			    background-color: white;
-			    border-radius: 50%;
-			    img{
-			      width: 90%;
-			      transform: translateY(-0.37rem);
-			      cursor: pointer;
-			  }
-			}
+		  			  position: absolute;
+		  			  bottom: 6%;
+		  			  display: flex;
+		  			  justify-content: space-around;
+		  			    img{
+		  							width: 20%;
+		  							padding: 0.6%;
+		  							height: auto;
+		  							display: block;
+		  							background-color: #fff;
+		  							border-radius: 50%;
+		  			      transform: translateY(-0.37rem);
+		  			      cursor: pointer;
+		  			  }
 		  }
 		}
       }
@@ -262,8 +264,8 @@
         min-width: 400px;
       }
       .el-main {
+		  width: 100%;
         background-color: white;
-        min-width: 400px;
         margin: 0.2rem 0rem;
         border-radius: 15px;
         height: 108.5%;
